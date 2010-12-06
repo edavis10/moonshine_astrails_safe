@@ -33,7 +33,7 @@ module AstrailsSafe
    # unless cron is  false, the default backup is every night at midnight
    unless options[:cron] == false
      options[:cron] ||= {}
-     cron 'astrails-safe',
+     cron "astrails-safe #{options[:file]}",
       :command    => options[:cron][:command] || "astrails-safe #{options[:file]}",
       :minute     => options[:cron][:minute] || 0,
       :hour       => options[:cron][:hour] || 0,
