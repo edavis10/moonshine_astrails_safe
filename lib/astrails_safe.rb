@@ -15,6 +15,7 @@ module AstrailsSafe
     
     options[:local] ||= {}
     options[:mysql] ||= {}
+    options[:file]  ||= '/etc/astrails/safe.conf'
     
     # define the recipe
     # options specified with the configure method will be 
@@ -24,7 +25,7 @@ module AstrailsSafe
     package 'gpg'
 
     file '/etc/astrails', :ensure => :directory, :mode => '644'
-    file '/etc/astrails/safe.conf',
+    file options[:file],
       :mode => '644',
       :require => file('/etc/astrails'),
       :content => template(File.join(File.dirname(__FILE__), '..', 'templates', 'safe.conf'), binding)
@@ -33,7 +34,7 @@ module AstrailsSafe
    unless options[:cron] == false
      options[:cron] ||= {}
      cron 'astrails-safe',
-      :command    => options[:cron][:command] || 'astrails-safe /etc/astrails/safe.conf',
+      :command    => options[:cron][:command] || "astrails-safe #{options[:file]}",
       :minute     => options[:cron][:minute] || 0,
       :hour       => options[:cron][:hour] || 0,
       :monthday   => options[:cron][:monthday] || '*',
