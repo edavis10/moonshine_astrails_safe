@@ -15,6 +15,7 @@ module AstrailsSafe
     
     options[:local] ||= {}
     options[:mysql] ||= {}
+    options[:postgresql] ||= {}
     options[:file]  ||= '/etc/astrails/safe.conf'
     
     # define the recipe
